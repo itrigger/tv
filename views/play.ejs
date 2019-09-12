@@ -1,0 +1,58 @@
+<% layout('layout/page') -%>
+<% block('title', 'Воспроизведение'); -%>
+
+<section class="container">
+    <div class="bs-docs-section clearfix">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="owl-carousel owl-theme">
+                    <% screen.forEach(function(screen) { %>
+                        <div class="item"><%= screen.place %></div>
+                    <% }); %>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://js.pusher.com/5.0/pusher.min.js"></script>
+<script>
+    jQuery('document').ready(function () {
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('715c895bb7ce1e7fa171', {
+            cluster: 'ap2',
+            forceTLS: true
+        });
+
+        var channel = pusher.subscribe('<%= screen.channel %>');
+
+        channel.bind("my-event", function (data) {
+            $(".owl-carousel").html("").append(data.message);
+            $(".owl-carousel").trigger("destroy.owl.carousel");
+            $(".owl-carousel").owlCarousel({
+                loop: true,
+                margin: 0,
+                nav: false,
+                autoWidth: false,
+                autoplay: true,
+                autoplayTimeout: 10000,
+                animateOut: "fadeOut",
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 1
+                    },
+                    1000: {
+                        items: 1
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
