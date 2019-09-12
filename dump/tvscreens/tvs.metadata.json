@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"tvscreens.tvs"}],"uuid":"45def1f44940487d810773e5da2b8b36"}
