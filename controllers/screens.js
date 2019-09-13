@@ -1,4 +1,13 @@
 const Screens = require('../models/screens');
+const Pusher = require('pusher');
+
+var channels_client = new Pusher({
+    appId: '785932',
+    key: '715c895bb7ce1e7fa171',
+    secret: 'd9882d9bf171816308ff',
+    cluster: 'ap2',
+    encrypted: true
+});
 
 exports.all = function(req, res) {
     Screens.all(function(err, docs) {
@@ -13,16 +22,44 @@ exports.all = function(req, res) {
 };
 
 exports.findByPlace = function(req, res) {
-    console.log(req.params.place);
-    Screens.findByPlace({place: req.params.place}, function(err, doc) {
+    var query = require('url').parse(req.url,true).query;
+    var place = query.place;
+    var num = query.num;
+    Screens.findByPlace(place, num, function(err, doc) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
         }
         res.render('play',{
-            screen:doc
+            screen:doc,
+            query:query.channel
         })
     });
+};
+
+exports.reload = function (req, res) {
+    var query = require('url').parse(req.url,true).query;
+    var num = query.num;
+    var place = query.place;
+    var content ="";
+    console.log(req.params.channel);
+    console.log(place);
+    console.log(num);
+    Screens.findByPlace(place, num, function(err, doc) {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500);
+        }
+        doc.forEach(function (doc){
+            content += '<div class="item">'+doc.slide_content+'</div>';
+        });
+        console.log(content);
+        channels_client.trigger(req.params.channel, 'my-event', {
+            "message": content
+        });
+    });
+
+
 };
 
 exports.findById = function(req, res) {
@@ -55,11 +92,6 @@ exports.create = function(req, res) {
 };
 
 exports.update = function(req, res) {
-   /* console.log("place: " + req.body.place);
-    console.log("s_num: " + req.body.screen_num);
-    console.log("slide: " + req.body.slide_num);
-    console.log("activ: " + req.body.isactive);
-    console.log("contn: " + req.body.slide_content);*/
     Screens.update(
         req.params.id,
         {

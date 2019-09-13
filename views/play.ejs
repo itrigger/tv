@@ -1,24 +1,36 @@
-<% layout('layout/page') -%>
-<% block('title', 'Воспроизведение'); -%>
+<!DOCTYPE html>
+<html>
+<body class="front">
+<head>
+    <title>Воспроизведение</title>
+    <link rel="stylesheet" href="/css/main.bundle.css"/>
+    <script src="/js/bundle.js"></script>
+    <script src="https://js.pusher.com/5.0/pusher.min.js"></script>
+    <script src="https://kit.fontawesome.com/de94465633.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://tv.sushihiro.kz/vendor/js/owl/owl.carousel.min.js"></script>
+    <link href="http://tv.sushihiro.kz/vendor/js/owl/assets/owl.carousel.min.css" rel='stylesheet' type='text/css'>
+    <style>
+        .front {
+            background: #000;
+            overflow: hidden;
+            color: #fff;
+            padding: 0;
+        }
+    </style>
+</head>
 
-<section class="container">
-    <div class="bs-docs-section clearfix">
-        <div class="row">
-            <div class="col-lg-12">
 
                 <div class="owl-carousel owl-theme">
                     <% screen.forEach(function(screen) { %>
-                        <div class="item"><%= screen.place %></div>
+                        <div class="item"><%- screen.slide_content %></div>
                     <% }); %>
                 </div>
 
-            </div>
-        </div>
-    </div>
-</section>
-<script src="https://js.pusher.com/5.0/pusher.min.js"></script>
+
+
 <script>
-    jQuery('document').ready(function () {
+    $('document').ready(function () {
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
 
@@ -27,7 +39,7 @@
             forceTLS: true
         });
 
-        var channel = pusher.subscribe('<%= screen.channel %>');
+        var channel = pusher.subscribe('<%= query %>');
 
         channel.bind("my-event", function (data) {
             $(".owl-carousel").html("").append(data.message);
@@ -54,5 +66,32 @@
             });
             return false;
         });
+        var $owl = $('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 0,
+            nav: false,
+            autoWidth: false,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            animateOut: 'fadeOut',
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 1
+                },
+                1000: {
+                    items: 1
+                }
+            }
+        })
+
+       /* channels_client.trigger('<%= query %>', 'my-event', {
+            'message': '<% screen.forEach(function(screen) { %><div class="item"><%- screen.slide_content %></div><% }); %>'
+        });*/
+
     });
 </script>
+</body>
+</html>

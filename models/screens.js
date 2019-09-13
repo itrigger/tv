@@ -13,8 +13,8 @@ exports.findById = function(id, cb) {
     });
 };
 
-exports.findByPlace = function(id, cb) {
-    db.get().collection('screens').find({place: place}).toArray(function(err, doc) {
+exports.findByPlace = function(place,num, cb) {
+    db.get().collection('screens').find({place: place, screen_num: num}).toArray(function(err, doc) {
         cb(err, doc);
     });
 };
