@@ -10,6 +10,7 @@ var db = require('./db');
 var placesController = require('./controllers/places');
 var screensController = require('./controllers/screens');
 var tvsController = require('./controllers/tvs');
+var scheduleController = require('./controllers/scheduler');
 
 var app = express();
 var methodOverride = require('method-override');
@@ -42,30 +43,46 @@ app.get('/add_tv/', function (req, res) {
         // id: req.params.id
     });
 });
+app.get('/add_schedule/', function (req, res) {
+    res.render('schedule_add', {
+        // id: req.params.id
+    });
+});
 
 
-
+/*Роуты для локаций*/
 app.get('/places', placesController.all);
 app.get('/places/:id', placesController.findById);
 app.post('/places', placesController.create);
 app.put('/places/:id', placesController.update);
 app.delete('/places/:id', placesController.delete);
 
-app.get('/play/:place', screensController.findByPlace); /*Воспроизвести слайды на выбранном экране*/
+/*Роуты для воспроизведения и апдейта*/
+app.get('/play/:place', screensController.findByPlace, scheduleController.test); /*Воспроизвести слайды на выбранном экране*/
 app.get('/update/:channel', screensController.reload); /*Обновить без перезагрузки через Pusher*/
 
+/*Роуты для слайдов*/
 app.get('/screens', screensController.all); /*OK Посмотреть все слайды*/
 app.get('/screens/:id', screensController.findById); /*OK Открыть один конкретный слайд*/
 app.post('/screens', screensController.create); /*OK Создать новый слайд*/
 app.put('/screens/:id', screensController.update); /*OK Обновить слайд*/
 app.delete('/screens/:id', screensController.delete); /*OK Удалить слайд*/
 
+/*Роуты для ТВ экранов*/
 app.get('/', tvsController.indexall);
 app.get('/tvs', tvsController.all);
 app.get('/tvs/:id', tvsController.findById);
 app.post('/tvs', tvsController.create);
 app.put('/tvs/:id', tvsController.update);
 app.delete('/tvs/:id', tvsController.delete);
+
+/*Роуты для событий*/
+app.get('/schedule', scheduleController.all);
+app.put('/schedule/:id', scheduleController.update);
+app.get('/schedule/:id', scheduleController.findById);
+app.post('/schedule', scheduleController.create);
+app.delete('/schedule/:id', scheduleController.delete);
+
 /*
 app.use(function (req, res) {
    res.send(404, 'Page not found');

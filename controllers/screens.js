@@ -6,7 +6,7 @@ var channels_client = new Pusher({
     key: '715c895bb7ce1e7fa171',
     secret: 'd9882d9bf171816308ff',
     cluster: 'ap2',
-    encrypted: true
+    useTLS: true
 });
 
 exports.all = function(req, res) {
@@ -21,7 +21,7 @@ exports.all = function(req, res) {
     });
 };
 
-exports.findByPlace = function(req, res) {
+exports.findByPlace = function(req, res, next) {
     var query = require('url').parse(req.url,true).query;
     var place = query.place;
     var num = query.num;
@@ -35,6 +35,7 @@ exports.findByPlace = function(req, res) {
             query:query.channel
         })
     });
+    next();
 };
 
 exports.reload = function (req, res) {

@@ -52,6 +52,22 @@ jQuery(document).ready(function () {
         }
     });
 
+    /*Удаление события*/
+    jQuery('.schedule-delete-form').on("click", function (e) {
+        e.preventDefault();
+        if (window.confirm("Удалить это событие?")) {
+            var id = jQuery(this).find('.id').val();
+            jQuery.ajax({
+                url: '/schedule/' + id,
+                type: 'DELETE',
+                success: function (data) {
+                    console.log(data);
+                    location.reload();
+                }
+            });
+        }
+    });
+
     /*Выделяем активный пункт меню*/
     jQuery(function () {
         jQuery('#navbarNav li a').each(function () {
