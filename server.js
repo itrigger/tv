@@ -8,7 +8,7 @@ var ObjectID = require('mongodb').ObjectID;
 var db = require('./db');
 
 var placesController = require('./controllers/places');
-var screensController = require('./controllers/screens');
+var slidesController = require('./controllers/slides');
 var tvsController = require('./controllers/tvs');
 var scheduleController = require('./controllers/scheduler');
 
@@ -28,8 +28,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 
-app.get('/add_screen/', function (req, res) {
-    res.render('screens_add', {
+app.get('/add_slide/', function (req, res) {
+    res.render('slide_add', {
         // id: req.params.id
     });
 });
@@ -58,15 +58,15 @@ app.put('/places/:id', placesController.update);
 app.delete('/places/:id', placesController.delete);
 
 /*Роуты для воспроизведения и апдейта*/
-app.get('/play/:place', screensController.findByPlace, scheduleController.test); /*Воспроизвести слайды на выбранном экране*/
-app.get('/update/:channel', screensController.reload); /*Обновить без перезагрузки через Pusher*/
+app.get('/play/:place', slidesController.findByPlace, scheduleController.test); /*Воспроизвести слайды на выбранном экране*/
+app.get('/update/:channel', slidesController.reload); /*Обновить без перезагрузки через Pusher*/
 
 /*Роуты для слайдов*/
-app.get('/screens', screensController.all); /*OK Посмотреть все слайды*/
-app.get('/screens/:id', screensController.findById); /*OK Открыть один конкретный слайд*/
-app.post('/screens', screensController.create); /*OK Создать новый слайд*/
-app.put('/screens/:id', screensController.update); /*OK Обновить слайд*/
-app.delete('/screens/:id', screensController.delete); /*OK Удалить слайд*/
+app.get('/slides', slidesController.all); /*OK Посмотреть все слайды*/
+app.get('/slides/:id', slidesController.findById); /*OK Открыть один конкретный слайд*/
+app.post('/slides', slidesController.create); /*OK Создать новый слайд*/
+app.put('/slides/:id', slidesController.update); /*OK Обновить слайд*/
+app.delete('/slides/:id', slidesController.delete); /*OK Удалить слайд*/
 
 /*Роуты для ТВ экранов*/
 app.get('/', tvsController.indexall);
@@ -102,7 +102,7 @@ function errorNotification(err, str, req) {
     })
 }
 
-db.connect('mongodb://localhost:27017/tvscreens', function (err) {
+db.connect('mongodb://trigger_kst:yakm1712@cluster0-shard-00-00-c2fuc.mongodb.net:27017,cluster0-shard-00-01-c2fuc.mongodb.net:27017,cluster0-shard-00-02-c2fuc.mongodb.net:27017/tvscreens?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority', function (err) {
     if (err) {
         return console.log(err);
     }

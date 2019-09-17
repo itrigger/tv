@@ -22,8 +22,8 @@
 
 
                 <div class="owl-carousel owl-theme">
-                    <% screen.forEach(function(screen) { %>
-                        <div class="item"><%- screen.slide_content %></div>
+                    <% slides.forEach(function(slides) { %>
+                        <div class="item"><%- slides.slide_content %></div>
                     <% }); %>
                 </div>
 
@@ -88,7 +88,7 @@
         })
 
        /* channels_client.trigger('<%= query %>', 'my-event', {
-            'message': '<% screen.forEach(function(screen) { %><div class="item"><%- screen.slide_content %></div><% }); %>'
+            'message': '<% slides.forEach(function(slides) { %><div class="item"><%- slides.slide_content %></div><% }); %>'
         });*/
 
     });

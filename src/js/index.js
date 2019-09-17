@@ -5,7 +5,7 @@ import bootstrap from 'bootstrap';
 jQuery(document).ready(function () {
 
     /*Удаление слайда*/
-    jQuery('.screen-delete-form').on("click", function (e) {
+    jQuery('.slide-delete-form').on("click", function (e) {
         e.preventDefault();
         if (window.confirm("Удалить этот слайд?")) {
             var id = jQuery(this).find('.id').val();

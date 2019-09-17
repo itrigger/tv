@@ -13,7 +13,7 @@
 
                 <div class="card mb-5">
                     <div class="card-body">
-                        <a href="/add_screen" class="btn btn-success"><i class="fas fa-plus"></i> Добавить новый
+                        <a href="/add_slide" class="btn btn-success"><i class="fas fa-plus"></i> Добавить новый
                             слайд</a>
                     </div>
                 </div>
@@ -29,20 +29,20 @@
                         <th>Контент</th>
                         <th></th>
                     </tr>
-                    <% screen.forEach(function(screen) { %>
+                    <% slides.forEach(function(slides) { %>
                         <tr>
-                            <td><%= screen._id %></td>
-                            <td><%= screen.place %></td>
-                            <td><%= screen.screen_num %></td>
-                            <td><%= screen.slide_num %></td>
-                            <td><%= screen.isactive %></td>
-                            <td><%- screen.slide_content %></td>
+                            <td><%= slides._id %></td>
+                            <td><%= slides.place %></td>
+                            <td><%= slides.screen_num %></td>
+                            <td><%= slides.slide_num %></td>
+                            <td><%= slides.isactive %></td>
+                            <td><%- slides.slide_content %></td>
                             <td>
-                                <div class="float-left m-1"><a href="/screens/<%= screen._id %>"
+                                <div class="float-left m-1"><a href="/slides/<%= slides._id %>"
                                                                class="btn btn-warning"><i
                                                 class="fas fa-edit"></i></a></div>
-                                <form class="screen-delete-form float-left m-1">
-                                    <input type="hidden" class="id" value="<%= screen._id %>">
+                                <form class="slide-delete-form float-left m-1">
+                                    <input type="hidden" class="id" value="<%= slides._id %>">
                                     <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                                 </form>
 

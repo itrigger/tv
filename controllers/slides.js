@@ -1,4 +1,4 @@
-const Screens = require('../models/screens');
+const Slides = require('../models/slides');
 const Pusher = require('pusher');
 
 var channels_client = new Pusher({
@@ -10,13 +10,13 @@ var channels_client = new Pusher({
 });
 
 exports.all = function(req, res) {
-    Screens.all(function(err, docs) {
+    Slides.all(function(err, docs) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
         }
-        res.render('screens',{
-            screen:docs
+        res.render('slides',{
+            slides:docs
         })
     });
 };
@@ -25,13 +25,13 @@ exports.findByPlace = function(req, res, next) {
     var query = require('url').parse(req.url,true).query;
     var place = query.place;
     var num = query.num;
-    Screens.findByPlace(place, num, function(err, doc) {
+    Slides.findByPlace(place, num, function(err, doc) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
         }
         res.render('play',{
-            screen:doc,
+            slides:doc,
             query:query.channel
         })
     });
@@ -46,7 +46,7 @@ exports.reload = function (req, res) {
     console.log(req.params.channel);
     console.log(place);
     console.log(num);
-    Screens.findByPlace(place, num, function(err, doc) {
+    Slides.findByPlace(place, num, function(err, doc) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
@@ -64,13 +64,13 @@ exports.reload = function (req, res) {
 };
 
 exports.findById = function(req, res) {
-    Screens.findById(req.params.id, function(err, doc) {
+    Slides.findById(req.params.id, function(err, doc) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
         }
-        res.render('screens_edit',{
-            screen:doc
+        res.render('slide_edit',{
+            slides:doc
         })
     });
 };
@@ -83,17 +83,17 @@ exports.create = function(req, res) {
         isactive: req.body.isactive,
         slide_content: req.body.slide_content
     };
-    Screens.create(screen, function(err, result) {
+    Slides.create(screen, function(err, result) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
         }
-        res.redirect('/screens');
+        res.redirect('/slides');
     });
 };
 
 exports.update = function(req, res) {
-    Screens.update(
+    Slides.update(
         req.params.id,
         {
             place: req.body.place,
@@ -108,13 +108,13 @@ exports.update = function(req, res) {
                 return res.sendStatus(500);
             }
             console.log('Данные успешно обновлены!');
-            res.redirect('/screens');
+            res.redirect('/slides');
         }
     );
 };
 
 exports.delete = function(req, res) {
-    Screens.delete(
+    Slides.delete(
         req.params.id,
         function(err, result) {
             if (err) {
